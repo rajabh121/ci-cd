@@ -1,0 +1,26 @@
+steps:
+   - id: "docker-build"
+     name: "gcr.io/cloud-builders/docker"
+     args: ["build", "-t", "${_IMAGE_NAME}", "."]
+
+   - id: "docker-push"
+     name: "gcr.io/cloud-builders/docker"
+     args: ["push", "${_IMAGE_NAME}"]
+
+   - id: "migration"
+     name: "${_IMAGE_NAME}"
+     entrypoint: python  
+     args: ["sql.py"] 
+
+options:
+   pool:
+     name: projects/cheq-uat-app/locations/asia-south1/workerPools/uat-worker-pool
+   dynamic_substitutions: true
+  
+options:
+    substitution_option: 'ALLOW_LOOSE'
+    logging: CLOUD_LOGGING_ONLY
+
+substitutions:
+   _IMAGE_NAME: gcr.io/cheq-uat-app/sql-private-pool
+
