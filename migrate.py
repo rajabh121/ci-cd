@@ -49,6 +49,6 @@ res=connect_tcp_socket()
 print(res)
 
 query = """
-CREATE DATABASE testDB1;
+CREATE DATABASE testDB2;
 """
 res.execute(query)
